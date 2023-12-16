@@ -11,14 +11,11 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <div class="mb-1 d-inline-block">
-                                <label class="form-label" for="selectVille">Choisir une ville</label>
-                                <select class="form-select" id="selectVille">
-                                    <option value="Antananarivo">Antananarivo</option>
-                                    <option value="Antsiranana">Antsiranana</option>
-                                    <option value="Fianarantsoa">Fianarantsoa</option>
-                                    <option value="Mahajanga">Mahajanga</option>
-                                    <option value="Toamasina">Toamasina</option>
-                                    <option value="Toliara">Toliara</option>
+                                <label class="form-label" for="selectCity">Choisir une ville</label>
+                                <select class="form-select" id="selectCity">
+                                    {% for city in cities %}
+                                        <option value="{{ city.id }}">{{ city.label }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </li>
@@ -30,7 +27,7 @@
 
     <main class="container">
         <section class="row">
-            <h2 class="content-header-title float-start mb-0">Antananarivo</h2>
+            <h2 class="content-header-title float-start mb-0">{{ currentCity.label }}</h2>
             <h4>Météo aujourd'hui</h4>
             <section class="col-md-5 col-5 col-sm-12 col-xs-12 meteo">
                 <div class="container h-100">
@@ -38,23 +35,23 @@
                         <div class="col-md-12 col-lg-12 col-xl-12">
                             <div class="card shadow-0 border">
                                 <div class="card-body p-4">
-                                    <h4 class="mb-1 sfw-normal">Antananarivo, Madagascar</h4>
-                                    <h2 class="fw-bolder align-items-center">21°C</h2>
-                                    <h5 class="align-items-center">16° / 31°C</h5>
-                                    <p class="mb-2">Température: <strong>21°C</strong></p>
-                                    <p class="mb-2">Température ressentie: <strong>23°C</strong></p>
-                                    <p class="mb-2">Pression atmosphérique: <strong>125 hPa</strong></p>
-                                    <p class="mb-2">Humidité: <strong>45%</strong></p>
-                                    <p class="mb-2">Direction du vent: <strong>68°</strong></p>
-                                    <div class="d-flex flex-row align-items-center">
-                                        <p class="mb-0 me-4">Pluvieux</p>
-                                        <i class="fas fa-cloud-rain fa-3x" style="color: #4d5154;"></i>
-                                        <span class="bi-search bi-lg bi-text-danger"></span>
+                                    <h4 class="mb-1 sfw-normal">{{ currentCity.label }}, Madagascar</h4>
+                                    <h2 class="fw-bolder align-items-center">{{ weatherData.temp|number_format(2) }}°C</h2>
+                                    <h5 class="align-items-center">{{ weatherData.tempMin }}° / {{ weatherData.tempMax }}°C</h5>
+                                    <p class="mb-2">Température: <strong>{{ weatherData.temp }}°C</strong></p>
+                                    <p class="mb-2">Température ressentie: <strong>{{ weatherData.feelsLike }}°C</strong></p>
+                                    <p class="mb-2">Pression atmosphérique: <strong>{{ weatherData.pressure }} hPa</strong></p>
+                                    <p class="mb-2">Humidité: <strong>{{ weatherData.humidity }}%</strong></p>
+                                    <p class="mb-2">Direction du vent: <strong>{{ weatherData.windDirection }}°</strong></p>
+                                    <p class="mb-2">Vitesse du vent: <strong>{{ weatherData.windSpeed }} m/s</strong></p>
+                                    <div class="d-flex flex-row">
+                                        <h6>{{ weatherData.description|capitalize }} </h6>
+                                        <span class="end-100"><i class="fas fa-cloud-rain fa-4x" style="color: #4d5154;"></i></span>
                                     </div>
                                 </div>
                                 <div class="card-footer p-1 border-0">
                                     <p class="text-end text-md-end text-lg-end">
-                                    <h3 class="fw-bolder hour-display">09:54</h3>
+                                        <h3 class="fw-bolder hour-display">{{ weatherData.time|date('H:i') }}</h3>
                                     </p>
                                 </div>
                             </div>
@@ -144,43 +141,29 @@
             <table class="table table-borderless table-striped">
                 <thead>
                 <tr>
+                    <th>Date</th>
                     <th>Heure</th>
                     <th>Température</th>
                     <th>Pression atmosphérique</th>
                     <th>Humidité</th>
                     <th>Vitesse du vent</th>
-                    <th>Direction du vent</th>
                     <th>Conditions météorologiques</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>00:00</td>
-                    <td>20</td>
-                    <td>1013</td>
-                    <td>70</td>
-                    <td>10</td>
-                    <td>0</td>
-                    <td>Ensoleillé</td>
-                </tr>
-                <tr>
-                    <td>01:00</td>
-                    <td>19</td>
-                    <td>1012</td>
-                    <td>75</td>
-                    <td>12</td>
-                    <td>10</td>
-                    <td>Nuageux</td>
-                </tr>
-                <tr>
-                    <td>02:00</td>
-                    <td>18</td>
-                    <td>1011</td>
-                    <td>80</td>
-                    <td>14</td>
-                    <td>20</td>
-                    <td>Pluie</td>
-                </tr>
+                {% if histories %}
+                    {% for history in histories %}
+                        <tr>
+                            <td>{{ history.date|date('d-m-Y') }}</td>
+                            <td>{{ history.time|date('H:i') }}</td>
+                            <td>{{ history.temp }}</td>
+                            <td>{{ history.pressure }}</td>
+                            <td>{{ history.humidity }}</td>
+                            <td>{{ history.windSpeed }}</td>
+                            <td>{{ history.description }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
         </section>
