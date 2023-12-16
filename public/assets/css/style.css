@@ -1,0 +1,107 @@
+body {
+  margin: 40px;
+  padding: 40px;
+  font-family: Montserrat, sans-serif;
+}
+
+header {
+  color: #fff;
+  padding: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+nav {
+  float: right;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+main {
+  margin: 0 1rem 2rem 1rem;
+}
+
+.meteo {
+  margin: 1rem 0;
+  overflow: auto;
+  /* width: 100%; */
+}
+
+.meteo h2 {
+  font-size: 4rem;
+}
+
+.meteo h3 {
+  font-size: 3rem;
+}
+
+.meteo h4 {
+  font-size: 2rem;
+}
+
+.meteo h5 {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #565e64;
+}
+.meteo p {
+  font-size: 1rem;
+}
+
+.meteo p strong {
+  font-weight: bold;
+}
+
+.carrousel {
+  overflow: auto;
+  max-height: 450px; /* Ajustez la valeur selon vos besoins */
+}
+
+.carrousel .slides img {
+  max-height: 440px;
+  object-fit: cover;
+}
+
+.historique {
+  margin: 1rem 0;
+  overflow: auto;
+}
+
+.historique table {
+  width: 100%;
+}
+
+.historique table th {
+  background-color: #ccc;
+  text-align: center;
+}
+
+.historique table td {
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+}
+
+.hour-display {
+  text-align: right;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
