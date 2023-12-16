@@ -1,20 +1,190 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello WeatherController!{% endblock %}
+{% block title %}Météo Madagascar{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <h1>Météo Madagascar</h1>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <div class="mb-1 d-inline-block">
+                                <label class="form-label" for="selectVille">Choisir une ville</label>
+                                <select class="form-select" id="selectVille">
+                                    <option value="Antananarivo">Antananarivo</option>
+                                    <option value="Antsiranana">Antsiranana</option>
+                                    <option value="Fianarantsoa">Fianarantsoa</option>
+                                    <option value="Mahajanga">Mahajanga</option>
+                                    <option value="Toamasina">Toamasina</option>
+                                    <option value="Toliara">Toliara</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <main class="container">
+        <section class="row">
+            <h2 class="content-header-title float-start mb-0">Antananarivo</h2>
+            <h4>Météo aujourd'hui</h4>
+            <section class="col-md-5 col-5 col-sm-12 col-xs-12 meteo">
+                <div class="container h-100">
+                    <div class="row d-flex justify-content-center align-items-baseline h-100">
+                        <div class="col-md-12 col-lg-12 col-xl-12">
+                            <div class="card shadow-0 border">
+                                <div class="card-body p-4">
+                                    <h4 class="mb-1 sfw-normal">Antananarivo, Madagascar</h4>
+                                    <h2 class="fw-bolder align-items-center">21°C</h2>
+                                    <h5 class="align-items-center">16° / 31°C</h5>
+                                    <p class="mb-2">Température: <strong>21°C</strong></p>
+                                    <p class="mb-2">Température ressentie: <strong>23°C</strong></p>
+                                    <p class="mb-2">Pression atmosphérique: <strong>125 hPa</strong></p>
+                                    <p class="mb-2">Humidité: <strong>45%</strong></p>
+                                    <p class="mb-2">Direction du vent: <strong>68°</strong></p>
+                                    <div class="d-flex flex-row align-items-center">
+                                        <p class="mb-0 me-4">Pluvieux</p>
+                                        <i class="fas fa-cloud-rain fa-3x" style="color: #4d5154;"></i>
+                                        <span class="bi-search bi-lg bi-text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="card-footer p-1 border-0">
+                                    <p class="text-end text-md-end text-lg-end">
+                                    <h3 class="fw-bolder hour-display">09:54</h3>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="col-md-7 col-7 col-sm-12 col-xs-12 carrousel">
+                <div class="card border-0 h-75 w-100">
+                    <div class="card-body">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselExampleIndicators"
+                                        data-bs-slide-to="0"
+                                        class="active"
+                                        aria-current="true"
+                                        aria-label="Slide 1"
+                                ></button>
+                                <button
+                                        type="button"
+                                        data-bs-target="#carouselExampleIndicators"
+                                        data-bs-slide-to="1"
+                                        aria-label="Slide 2"
+                                ></button>
+                                <button
+                                        type="button"
+                                        data-bs-target="#carouselExampleIndicators"
+                                        data-bs-slide-to="2"
+                                        aria-label="Slide 3"
+                                ></button>
+                            </div>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img
+                                            src="assets/img/Antananarivo-8.jpg"
+                                            class="d-block w-100 h-auto"
+                                            alt="First slide"
+                                    />
+                                </div>
+                                <div class="carousel-item">
+                                    <img
+                                            src="assets/img/Antananarivo-7.jpg"
+                                            class="d-block w-100"
+                                            alt="Second slide"
+                                    />
+                                </div>
+                                <div class="carousel-item">
+                                    <img
+                                            src="assets/img/Antananarivo-11.jpg"
+                                            class="d-block w-100"
+                                            alt="Third slide"
+                                    />
+                                </div>
+                            </div>
+                            <button
+                                    class="carousel-control-prev"
+                                    type="button"
+                                    data-bs-target="#carouselExampleIndicators"
+                                    data-bs-slide="prev"
+                            >
+                        <span
+                                class="carousel-control-prev-icon"
+                                aria-hidden="true"
+                        ></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button
+                                    class="carousel-control-next"
+                                    type="button"
+                                    data-bs-target="#carouselExampleIndicators"
+                                    data-bs-slide="next"
+                            >
+                        <span
+                                class="carousel-control-next-icon"
+                                aria-hidden="true"
+                        ></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <section class="row historique">
+            <h2>Historique de la météo</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/weather-app/src/Controller/WeatherController.php'|file_link(0) }}">src/Controller/WeatherController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/weather-app/templates/weather/index.html.twig'|file_link(0) }}">templates/weather/index.html.twig</a></code></li>
-    </ul>
-</div>
+            <table class="table table-borderless table-striped">
+                <thead>
+                <tr>
+                    <th>Heure</th>
+                    <th>Température</th>
+                    <th>Pression atmosphérique</th>
+                    <th>Humidité</th>
+                    <th>Vitesse du vent</th>
+                    <th>Direction du vent</th>
+                    <th>Conditions météorologiques</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>00:00</td>
+                    <td>20</td>
+                    <td>1013</td>
+                    <td>70</td>
+                    <td>10</td>
+                    <td>0</td>
+                    <td>Ensoleillé</td>
+                </tr>
+                <tr>
+                    <td>01:00</td>
+                    <td>19</td>
+                    <td>1012</td>
+                    <td>75</td>
+                    <td>12</td>
+                    <td>10</td>
+                    <td>Nuageux</td>
+                </tr>
+                <tr>
+                    <td>02:00</td>
+                    <td>18</td>
+                    <td>1011</td>
+                    <td>80</td>
+                    <td>14</td>
+                    <td>20</td>
+                    <td>Pluie</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>&copy; 2023</footer>
 {% endblock %}

@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WeatherController extends AbstractController
 {
     /**
-     * @Route("/weather", name="app_weather")
+     * @Route("/", name="app_weather")
      */
     public function index(): Response
     {
