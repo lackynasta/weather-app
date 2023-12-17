@@ -27,6 +27,11 @@ class City
      */
     private $label;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $pictures = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class City
     public function setLabel(string $label): self
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    public function getPictures(): ?array
+    {
+        return $this->pictures;
+    }
+
+    public function setPictures(array $pictures): self
+    {
+        $this->pictures = $pictures;
 
         return $this;
     }
