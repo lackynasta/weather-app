@@ -1,9 +1,12 @@
 $(document).ready(function () {
   $(".slides").slick({
+    arrows: true,
     infinite: true,
-    slideToShow: 3,
-    slideToScroll: 3,
     dots: true,
-    center: true,
+    autoplay: true
   });
+
+  $('.select-city').on('change', function () {
+    window.location = $(this).val();
+  })
 });
