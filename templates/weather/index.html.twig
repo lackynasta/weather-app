@@ -6,15 +6,17 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
-                <h1>Météo Madagascar</h1>
+                <h1><a href="{{ path('app_weather') }}">Météo Madagascar</a></h1>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <div class="mb-1 d-inline-block">
                                 <label class="form-label" for="selectCity">Choisir une ville</label>
-                                <select class="form-select" id="selectCity">
+                                <select class="form-select select-city" id="selectCity">
                                     {% for city in cities %}
-                                        <option value="{{ city.id }}">{{ city.label }}</option>
+                                        {% set selected = '' %}
+                                        {% if city == currentCity %} {% set selected = 'selected' %} {% endif %}
+                                        <option value="{{ city.id }}" data-city-link="{{ path('app_weather', {'id': city.id}) }}" {{ selected }}>{{ city.label }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -26,10 +28,10 @@
     </header>
 
     <main class="container">
-        <section class="row">
+        <div class="row">
             <h2 class="content-header-title float-start mb-0">{{ currentCity.label }}</h2>
             <h4>Météo aujourd'hui</h4>
-            <section class="col-md-5 col-5 col-sm-12 col-xs-12 meteo">
+            <section class="col-lg-6 meteo">
                 <div class="container h-100">
                     <div class="row d-flex justify-content-center align-items-baseline h-100">
                         <div class="col-md-12 col-lg-12 col-xl-12">
@@ -37,108 +39,46 @@
                                 <div class="card-body p-4">
                                     <h4 class="mb-1 sfw-normal">{{ currentCity.label }}, Madagascar</h4>
                                     <h2 class="fw-bolder align-items-center">{{ weatherData.temp|number_format(2) }}°C</h2>
-                                    <h5 class="align-items-center">{{ weatherData.tempMin }}° / {{ weatherData.tempMax }}°C</h5>
-                                    <p class="mb-2">Température: <strong>{{ weatherData.temp }}°C</strong></p>
                                     <p class="mb-2">Température ressentie: <strong>{{ weatherData.feelsLike }}°C</strong></p>
                                     <p class="mb-2">Pression atmosphérique: <strong>{{ weatherData.pressure }} hPa</strong></p>
                                     <p class="mb-2">Humidité: <strong>{{ weatherData.humidity }}%</strong></p>
                                     <p class="mb-2">Direction du vent: <strong>{{ weatherData.windDirection }}°</strong></p>
                                     <p class="mb-2">Vitesse du vent: <strong>{{ weatherData.windSpeed }} m/s</strong></p>
+                                    {% if weatherData.rain %}
+                                        <p class="mb-2">Précipitation: <strong>{{ weatherData.rainQuantity }} mm</strong></p>
+                                    {% endif %}
                                     <div class="d-flex flex-row">
-                                        <h6>{{ weatherData.description|capitalize }} </h6>
-                                        <span class="end-100"><i class="fas fa-cloud-rain fa-4x" style="color: #4d5154;"></i></span>
+                                        <h4>{{ weatherData.description|capitalize }} </h4>
                                     </div>
+                                    <span class="weather-icon"><i class="fas fa-{{ weatherIcon}} fa-9x" style="color: #4d5154;"></i></span>
                                 </div>
                                 <div class="card-footer p-1 border-0">
-                                    <p class="text-end text-md-end text-lg-end">
                                         <h3 class="fw-bolder hour-display">{{ weatherData.time|date('H:i') }}</h3>
-                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <section class="col-md-7 col-7 col-sm-12 col-xs-12 carrousel">
-                <div class="card border-0 h-75 w-100">
+            <section class="col-lg-6">
+                <div class="card border-0">
                     <div class="card-body">
-                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#carouselExampleIndicators"
-                                        data-bs-slide-to="0"
-                                        class="active"
-                                        aria-current="true"
-                                        aria-label="Slide 1"
-                                ></button>
-                                <button
-                                        type="button"
-                                        data-bs-target="#carouselExampleIndicators"
-                                        data-bs-slide-to="1"
-                                        aria-label="Slide 2"
-                                ></button>
-                                <button
-                                        type="button"
-                                        data-bs-target="#carouselExampleIndicators"
-                                        data-bs-slide-to="2"
-                                        aria-label="Slide 3"
-                                ></button>
-                            </div>
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img
-                                            src="assets/img/Antananarivo-8.jpg"
-                                            class="d-block w-100 h-auto"
-                                            alt="First slide"
-                                    />
+                        <div id="carousel" class="slides">
+                            {% set cityPictures = currentCity.pictures %}
+                            {% for picture in cityPictures %}
+                                <div>
+                                    <img src="{{ asset('assets/img/'~picture) }}" alt="{{ 'image '~ currentCity.label }}">
                                 </div>
-                                <div class="carousel-item">
-                                    <img
-                                            src="assets/img/Antananarivo-7.jpg"
-                                            class="d-block w-100"
-                                            alt="Second slide"
-                                    />
-                                </div>
-                                <div class="carousel-item">
-                                    <img
-                                            src="assets/img/Antananarivo-11.jpg"
-                                            class="d-block w-100"
-                                            alt="Third slide"
-                                    />
-                                </div>
-                            </div>
-                            <button
-                                    class="carousel-control-prev"
-                                    type="button"
-                                    data-bs-target="#carouselExampleIndicators"
-                                    data-bs-slide="prev"
-                            >
-                        <span
-                                class="carousel-control-prev-icon"
-                                aria-hidden="true"
-                        ></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button
-                                    class="carousel-control-next"
-                                    type="button"
-                                    data-bs-target="#carouselExampleIndicators"
-                                    data-bs-slide="next"
-                            >
-                        <span
-                                class="carousel-control-next-icon"
-                                aria-hidden="true"
-                        ></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </section>
-        </section>
+        </div>
         <section class="row historique">
             <h2>Historique de la météo</h2>
 
-            <table class="table table-borderless table-striped">
+            <table class="table table-borderless table-striped overflow-scroll">
                 <thead>
                 <tr>
                     <th>Date</th>

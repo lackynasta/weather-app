@@ -57,16 +57,6 @@ main {
   font-weight: bold;
 }
 
-.carrousel {
-  overflow: auto;
-  max-height: 450px; /* Ajustez la valeur selon vos besoins */
-}
-
-.carrousel .slides img {
-  max-height: 440px;
-  object-fit: cover;
-}
-
 .historique {
   margin: 1rem 0;
   overflow: auto;
@@ -83,6 +73,12 @@ main {
 
 .historique table td {
   text-align: center;
+}
+
+.weather-icon {
+  position: absolute;
+  top: 5rem;
+  right: 5rem;
 }
 
 footer {
