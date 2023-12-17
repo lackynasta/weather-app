@@ -50,19 +50,25 @@ class WeatherController extends AbstractController
                           HistoryRepository $historyRepository,
                           EntityManagerInterface $em, $id = null): Response
     {
+        /* Getting list of cities and current selected city */
         $cities = $cityRepository->findAll();
         $defaultCity = $cityRepository->findOneBy(['name' => 'Antananarivo']);
         $currentCity = ($id !== null and $cityRepository->find($id)) ? $cityRepository->find($id) : $defaultCity;
+
+        /* Fetching weather history for the selected city */
         $histories = $historyRepository->findBy(['city' => $currentCity], ['id' => 'DESC']);
 
+        /* Fetch the weather data using the weather API service */
         $cityName = $currentCity->getName();
         $lang = 'fr';
         $weatherData = $this->weatherApiService->fetchWeatherData($cityName, $lang, $this->apiKey);
 
+        /* Create a new history entry for the weather data and for the current city */
         $weatherHistory = $this->createHistory($weatherData, $currentCity);
         $em->persist($weatherHistory);
         $em->flush();
 
+        /* Render the template with necessary data */
         return $this->render('weather/index.html.twig', [
             'cities' => $cities,
             'weatherData' => $weatherHistory,
@@ -72,18 +78,12 @@ class WeatherController extends AbstractController
         ]);
     }
 
-    protected function getWeatherData(string $cityName, string $lang, string $apiKey): array
-    {
-        $apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=$cityName&lang=$lang&appid=$apiKey&units=metric";
-        $data = file_get_contents($apiUrl);
-        return json_decode($data, true);
-    }
-
     /**
      * @throws Exception
      */
     protected function createHistory($weatherData, $city): History
     {
+        /* Extract necessary data from $weatherData */
         $main = $weatherData['main'];
         $weather = $weatherData['weather'][0];
         $wind = $weatherData['wind'];
@@ -91,6 +91,7 @@ class WeatherController extends AbstractController
         $currentDate = DateTime::createFromFormat('U', $timestamp);
         $currentDate->setTimezone(new DateTimeZone('Indian/Antananarivo'));
 
+        /* Create a new History object and set its properties */
         $history = new History();
         $history->setCity($city)
         ->setDate($currentDate)
@@ -114,6 +115,7 @@ class WeatherController extends AbstractController
 
     protected function getWeatherIcon($weather): string
     {
+        /* Define the weather icons */
         $icons = [
             'Clear' => ['day' => 'sun', 'night' => 'moon'],
             'Clouds' => ['day' => 'cloud-sun', 'night' => 'cloud-moon'],
@@ -126,6 +128,7 @@ class WeatherController extends AbstractController
             'Tornado' => 'tornado'
         ];
 
+        /* Set the icon according to weather and day / night time */
         $currentHour = (int)$weather->getTime()->format('H');
         $isNight = ($currentHour >= $this->nightStartHour || $currentHour < $this->nightEndHour);
         $defaultIcon = $isNight ? 'cloud-moon' : 'cloud-sun';
