@@ -1,5 +1,5 @@
 
-# Weather App - Syfmony
+# Weather App - Symfony
 
 An app that show the current weather for a given city, and log in history the weather data every refresh of the page.
 
@@ -17,7 +17,7 @@ An app that show the current weather for a given city, and log in history the we
 Execute the commands bellow to install the project:
 
 ```bash
-  git clone https://github.com/lackynasta/weather-app.git
+  git clone git@github.com:lackynasta/weather-app.git
   cd weather-app
   composer install
 ```
