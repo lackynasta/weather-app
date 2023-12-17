@@ -16,9 +16,14 @@ class AppFixtures extends Fixture
         $cities = ['Antananarivo', 'Antsiranana', 'Fianarantsoa', 'Mahajanga', 'Toamasina', 'Toliara'];
         foreach ($cities as $city) {
             $cityEntity = new City();
+            $pictures = [];
+            for($i = 1; $i < 5; $i++) {
+                $pictures[] = $city.'-'.$i.'.jpeg';
+            }
             $cityEntity
                 ->setName($city)
-                ->setLabel($city);
+                ->setLabel($city)
+                ->setPictures($pictures);
             $manager->persist($cityEntity);
         }
         $manager->flush();
